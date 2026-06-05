@@ -33,3 +33,15 @@ separators = ["\n\n","\n",".","!","?","。", "！","？"," ", ""]
 # 短内容直接整段入库，不用切
 max_split_char_number = 1000
 
+
+similarity_threshold = 2
+
+embedding_model_name = "text-embedding-v4"
+
+# DeepSeek 大模型名称（通过 OpenAI 兼容接口调用）
+import os
+deepseek_model_name = "deepseek-chat"
+
+# DeepSeek API 配置（优先从环境变量读取，更安全）
+deepseek_api_key = os.environ.get("DEEPSEEK_API_KEY", "sk-your-deepseek-api-key")
+deepseek_base_url = "https://api.deepseek.com/v1"
