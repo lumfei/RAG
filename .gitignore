@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Virtual Environment
+venv/
+env/
+.venv/
+
+# ChromaDB vector store (local data)
+项目案例RAG/chroma_db/
+
+# Chat history (local user data)
+项目案例RAG/chat_history/
+
+# MD5 dedup log (local state)
+项目案例RAG/.md5.text
+
+# OS files
+.DS_Store
+Thumbs.db
