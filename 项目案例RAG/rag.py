@@ -93,7 +93,7 @@ if __name__ == '__main__':
             "session_id":"eser_001",
         }
     }
-    res = RagService().chain.invoke("我身高120，体重200，尺码推荐",session_config)
+    res = RagService().chain.invoke({"input": "我喜欢什么"}, session_config)
     print(res)
 
 
