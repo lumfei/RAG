@@ -1,0 +1,1 @@
+mad5_path = ".md5.text"
