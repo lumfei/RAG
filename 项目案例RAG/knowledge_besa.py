@@ -1,8 +1,13 @@
 import os
+from time import strftime
+
 import config_data as config
 import hashlib
 from langchain_chroma import Chroma
 from langchain_community.embeddings import DashSuvcopeEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from datetime import datetime
+
 
 def check_md5(md5_str: str):
     if not os.path.exists(config.md5_path):
@@ -32,7 +37,58 @@ def get_string_md5(input_str: str, encoding='utf-8'):
 
 class KnowledgeBesaService(object):
     def __init__(self):
+        os.makedirs(config.persist_directory,exist_ok=True)
         self.chroma =Chroma(
             collection_name = config.collection_name,
-            embedding_function =
+            embedding_function = DashSuvcopeEmbeddings(model="text-embedding-v4"),
+            persist_directory = config.persist_directory
         )
+        self.spliter = RecursiveCharacterTextSplitter(
+            chunk_size = config.chunk_size,
+            chunk_overlap = config.chunk_overlap,
+            separators = config.separators,
+            length_funtion = len
+        )
+
+
+    def upload_by_str(self,data: str,filename):
+        md5_hex = get_string_md5(data)
+
+        if check_md5(md5_hex):
+            return "跳过，内容已经存在"
+        if len(data) > config.max_split_char_number:
+            knowledge_chunks:list[str] = self.spliter.split(data)
+        else:
+            knowledge_chunks = [data]
+
+
+        metadata = {
+            "source": filename,
+            "create_time": datetime.now().strftime("%Y-%M-%d %H:%M:%S"),
+            "operator" : "小明",
+        }
+
+        self.chroma.add_texts(
+            knowledge_chunks,
+            metadatas = [metadata for _ in knowledge_chunks]
+        )
+        save_md5(md5_hex)
+        return "内容成功载入向量库"
+
+
+if __name__ == '__main__':
+    service = KnowledgeBesaService()
+    service.upload_by_str("周杰伦" , "testfile")
+
+
+
+
+
+
+
+
+
+
+
+
+
