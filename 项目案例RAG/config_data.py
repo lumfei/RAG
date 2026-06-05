@@ -47,3 +47,9 @@ dashscope_api_key = os.environ.get("DASHSCOPE_API_KEY", "your-dashscope-api-key"
 deepseek_model_name = "deepseek-chat"
 deepseek_api_key = os.environ.get("DEEPSEEK_API_KEY", "your-deepseek-api-key")
 deepseek_base_url = "https://api.deepseek.com/v1"
+
+session_config = {
+    "configurable": {
+        "session_id": "user_001",
+    }
+}
