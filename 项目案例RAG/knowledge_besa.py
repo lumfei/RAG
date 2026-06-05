@@ -80,8 +80,9 @@ class KnowledgeBesaService(object):
         # 用 LangChain 的 Chroma 封装来操作它
         self.chroma = Chroma(
             collection_name=config.collection_name,     # 表名
-            embedding_function=DashScopeEmbeddings(     # 用阿里云的模型把文本变成向量
-                model="text-embedding-v4"               # v4 是最新版本
+            embedding_function=DashScopeEmbeddings(
+                model="text-embedding-v4",               # v4 是最新版本
+                dashscope_api_key=config.dashscope_api_key  # API Key（从配置文件读取）
             ),
             persist_directory=config.persist_directory  # 存到哪个文件夹
         )
